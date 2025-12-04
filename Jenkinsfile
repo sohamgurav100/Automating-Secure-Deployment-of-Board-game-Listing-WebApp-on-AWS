@@ -26,7 +26,7 @@ pipeline {
         stage('OWASP Dependency Check') {
             steps {
                 sh '''
-                dependency-check.sh --scan . --format HTML --out owasp-report
+                /opt/dependency-check/bin/dependency-check.sh --scan . --format HTML --out owasp-report
                 '''
             }
         }
