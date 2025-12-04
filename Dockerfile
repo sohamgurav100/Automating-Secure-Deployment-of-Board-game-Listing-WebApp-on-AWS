@@ -5,18 +5,16 @@ FROM maven:3.8.5-openjdk-17 AS build
 
 WORKDIR /app
 
-# Copy only Maven wrapper and pom.xml first (to leverage caching)
-COPY pom.xml .
-COPY mvnw .
-COPY .mvn .mvn
+# Copy full project (because your source code is inside nested folder)
+COPY . .
 
-# Make mvnw executable
+# Move into the inner project folder
+WORKDIR /app/Automating-Secure-Deployment-of-Board-game-Listing-WebApp-on-AWS
+
+# Make wrapper executable
 RUN chmod +x mvnw
 
-# Copy the rest of the project source
-COPY src src
-
-# Build the application
+# Build the Spring Boot application
 RUN ./mvnw -B clean package -DskipTests
 
 
@@ -27,11 +25,9 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-# Copy the generated JAR from previous stage
-COPY --from=build /app/target/*.jar app.jar
+# Copy jar from the correct location
+COPY --from=build /app/Automating-Secure-Deployment-of-Board-game-Listing-WebApp-on-AWS/target/*.jar app.jar
 
-# Expose the application port
 EXPOSE 8080
 
-# Run the Spring Boot app
 ENTRYPOINT ["java", "-jar", "app.jar"]
