@@ -5,7 +5,7 @@ pipeline {
         DOCKERHUB = credentials('dockerhub-creds')
         SSH_KEY = credentials('app-server-ssh')
         DOCKER_IMAGE = "soham613/boardgame-app"
-        APP_SERVER = "65.0.105.236"
+        APP_SERVER = "13.233.152.223"
     }
 
     stages {
